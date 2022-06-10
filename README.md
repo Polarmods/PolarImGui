@@ -13,7 +13,7 @@ This is an implementation of ImGui for Android Unity-based games using il2cpp.
 
 ![image](https://user-images.githubusercontent.com/64957743/173016572-d18c5ba9-00ff-43d1-9f0c-9c163d3e255d.png)
 
-3. Now, open the project in Android Studio. You will need to wait for the gradle to sync once it is open. As for the NDK, I recommend using version r21e, which can be downloaded [here](https://github.com/android/ndk/wiki/Unsupported-Downloads#r21e).
+3. Now, open the project in Android Studio. You will need to wait for the gradle to sync once it is open. As for the NDK, I recommend using the latest lts version, which can be downloaded [here](https://dl.google.com/android/repository/android-ndk-r23c-windows.zip).
 
 ![image](https://user-images.githubusercontent.com/64957743/173019991-0d7db98d-6b67-41e0-a0a0-c34f5a68fe78.png)
 
