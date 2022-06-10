@@ -7,13 +7,13 @@ This is an implementation of ImGui for Android Unity-based games using il2cpp.
 
 ## Android Studio
 1. First of all, download Android Studio [here](https://developer.android.com/studio). Then, complete the installation process.
-2. Download the PolarImGui repository, andd extract it with any archiver (such as 7-Zip, WinRAR, etc).
+2. Download the PolarImGui repository, and extract it with any archiver (such as 7-Zip, WinRAR, etc).
  
 ![image](https://user-images.githubusercontent.com/64957743/173016188-401c7a8f-7fce-4f7a-b560-453098e8b0e0.png)
 
 ![image](https://user-images.githubusercontent.com/64957743/173016572-d18c5ba9-00ff-43d1-9f0c-9c163d3e255d.png)
 
-3. Now, open the project in Android Studio. You will need to wait for the gradle to sync once it is open. As for the NDK, I recommend using r21e, which can be downloaded [here](https://github.com/android/ndk/wiki/Unsupported-Downloads#r21e).
+3. Now, open the project in Android Studio. You will need to wait for the gradle to sync once it is open. As for the NDK, I recommend using version r21e, which can be downloaded [here](https://github.com/android/ndk/wiki/Unsupported-Downloads#r21e).
 
 ![image](https://user-images.githubusercontent.com/64957743/173019991-0d7db98d-6b67-41e0-a0a0-c34f5a68fe78.png)
 
@@ -26,7 +26,7 @@ Implementing the menu into an application is very easy, just follow the steps be
 
 ![image](https://user-images.githubusercontent.com/64957743/173011691-9563f44f-840a-400e-9931-7a80eb816ea7.png)
 
-From there, you will be presented with two additional folders. Choose the folder that resembles the cpu architecture you want to use (whether it be armeabi-v7a, or arm64-v8a).
+From there, you will be presented with two additional folders. Choose the folder that resembles the cpu architecture you want to use (whether it be armeabi-v7a, or arm64-v8a). I would also like to mention that you can implement both libraries into a game if it supports ARMv7a and ARMv8a, and it will work for most games (Guns of Boom did crash when I tested this on that game though)! So, there is no need to remove the folders as you 'normally' would.
 
 ![image](https://user-images.githubusercontent.com/64957743/173011171-7a89375d-8477-4a90-93ce-6998100aca04.png)
 
