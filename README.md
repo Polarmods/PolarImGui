@@ -5,8 +5,22 @@ This is an implementation of ImGui for Android Unity-based games using il2cpp.
 
 **[Join our Discord](https://discord.gg/swFjrMZuYr)**
 
+## Android Studio
+1. First of all, download Android Studio [here](https://developer.android.com/studio). Then, complete the installation process.
+2. Download the PolarImGui repository, andd extract it with any archiver (such as 7-Zip, WinRAR, etc).
+ 
+![image](https://user-images.githubusercontent.com/64957743/173016188-401c7a8f-7fce-4f7a-b560-453098e8b0e0.png)
+
+![image](https://user-images.githubusercontent.com/64957743/173016572-d18c5ba9-00ff-43d1-9f0c-9c163d3e255d.png)
+
+3. Now, open the project in Android Studio. You will need to wait for the gradle to sync once it is open. As for the NDK, I recommend using r21e, which can be downloaded [here](https://github.com/android/ndk/wiki/Unsupported-Downloads#r21e).
+
+![image](https://user-images.githubusercontent.com/64957743/173019991-0d7db98d-6b67-41e0-a0a0-c34f5a68fe78.png)
+
+4. Build it! (Build -> Build Bundle(s)/APK(s) -> Build APK(s), or Ctrl + F9).
+
 ## Implementation
-Implementing the menu into an application is very easy. All you need to do is find your applications launch activity, and place the following code under the 'onCreate' method in that launch activity.
+Implementing the menu into an application is very easy, just follow the steps below!
 
 1. Once you build the apk, open it using an archiver (such as 7-Zip, WinRAR, etc), and find the 'lib' directory.
 
