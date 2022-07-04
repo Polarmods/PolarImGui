@@ -71,7 +71,11 @@ __attribute__((constructor))
 void lib_main()
 {
     auto eglhandle = dlopen(OBFUSCATE("libEGL.so"), RTLD_LAZY);
-    dlerror();
+    const char *dlopen_error = dlerror();
+    if (dlopen_error)
+    {
+        eglhandle = dlopen(OBFUSCATE("libunity.so"), RTLD_LAZY); // I have no idea if this works it was just to me that it would fix crashes so I did it really quickly
+    }
     auto eglSwapBuffers = dlsym(eglhandle, OBFUSCATE("eglSwapBuffers"));
     const char *dlsym_error = dlerror();
     if (dlsym_error)
