@@ -61,8 +61,8 @@ namespace Unity
 
             ImGuiIO &io = ImGui::GetIO();
 
-            // _touch.m_TapCount > 1 u can remove this if u just want single click;
-            if (index == 0 && _touch.m_TapCount > 1)
+            // _touch.m_TapCount > 1 add this for double click
+            if (index == 0)
             {
                 int x = static_cast<float>(_touch.m_Position.x);
                 float y = static_cast<float>(std::round(Unity::Screen::Height.get())) - _touch.m_Position.y;
