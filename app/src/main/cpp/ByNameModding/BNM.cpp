@@ -1025,7 +1025,7 @@ namespace BNM_Internal {
         // Add assembly to list
         Assembly$$GetAllAssemblies()->push_back(newAsm);
 
-        LOGIBNM(OBFUSCATE_BNM("Added new assembly: [%s]"), cls->dllName);
+        LOGIBNM(OBFUSCATE_BNM("Added new assembly: [%s]"), cls->GetDllName());
 
         return newImg;
     }

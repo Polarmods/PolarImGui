@@ -2,12 +2,11 @@
 #define MENU
 
 #include "Misc/ESP.h"
+#include "Unity/Screen.h"
+
 namespace Menu
 {
 
-    int (*Screen_get_height)();
-
-    int (*Screen_get_width)();
     ImVec4 color = ImVec4(1, 1, 1, 1);
 
     void DrawMenu()
@@ -54,7 +53,7 @@ namespace Menu
     }
     void DrawImGui()
     {
-        if (init && Screen_get_height)
+        if (init && Unity::Screen::Height.get())
         {
             ImGuiIO &io = ImGui::GetIO();
             static bool WantTextInputLast = false;
@@ -62,7 +61,7 @@ namespace Menu
 //                displayKeyboard(true);
 //            WantTextInputLast = io.WantTextInput;
             ImGui_ImplOpenGL3_NewFrame();
-            ImGui_ImplAndroid_NewFrame(Screen_get_width(), Screen_get_height());;
+            ImGui_ImplAndroid_NewFrame(Unity::Screen::Width.get(), Unity::Screen::Height.get());;
             ImGui::NewFrame();
             DrawMenu();
             ImGui::Render();

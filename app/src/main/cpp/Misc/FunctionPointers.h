@@ -1,38 +1,33 @@
 //
 // Created by letha on 9/4/2021.
+// Updated by Tomie on 3/27/2023
 //
 
 #ifndef IMGUIANDROID_FUNCTIONPOINTERS_H
 #define IMGUIANDROID_FUNCTIONPOINTERS_H
 using namespace BNM::UNITY_STRUCTS;
-namespace Pointers
-{
+namespace Pointers {
 
-    void * (*GameObject_get_transform)(void *instance);
+    BNM::LoadClass GameObject;
+    BNM::Property<void *> GameObject_Transform;
 
-    Vector3 (*Transform_get_position)(void *instance);
+    BNM::LoadClass Transform;
+    BNM::Property<Vector3> Transform_Position;
 
-    Vector3 (*Camera_WorldToScreenPoint)(void *instance, Vector3 worldPosition);
+    BNM::LoadClass Camera;
+    BNM::Method<Vector3 *> Camera_WorldToScreenPoint;
+    BNM::Property<Vector3> Camera_Main;
 
-    void *(*Camera_get_main)();
+    void LoadPointers() {
+        GameObject = BNM::LoadClass("UnityEngine", "GameObject");
+        GameObject_Transform = GameObject.GetPropertyByName("transform");
 
-    //DWORD PlayerScript_correctPlayerPos;
-    void LoadPointers()
-    {
-        GameObject_get_transform =
-                *(void *(*)(void *)) OBFUSCATE_BYNAME_METHOD("UnityEngine", "GameObject",
-                                                             "get_transform", 0);
-        Transform_get_position =
-                *(Vector3 (*)(void *)) OBFUSCATE_BYNAME_METHOD("UnityEngine", "Transform",
-                                                               "get_position", 0);
-        Camera_WorldToScreenPoint =
-                *(Vector3 (*)(void *, Vector3)) OBFUSCATE_BYNAME_METHOD("UnityEngine", "Camera",
-                                                                        "WorldToScreenPoint", 1);
-        Camera_get_main =
-                *(void *(*)()) OBFUSCATE_BYNAME_METHOD("UnityEngine", "Camera",
-                                                                        "get_main", 0);
+        Transform = BNM::LoadClass("UnityEngine", "Transform");
+        Transform_Position = Transform.GetPropertyByName("position");
 
-        //PlayerScript_correctPlayerPos = OBFUSCATE_BYNAME_FIELD("", "PlayerScript", "position");
+        Camera = BNM::LoadClass("UnityEngine", "Camera");
+        Camera_WorldToScreenPoint = Camera.GetMethodByName("WorldToScreenPoint", 1);
+        Camera_Main = Camera.GetPropertyByName("main");
     }
 }
 #endif IMGUIANDROID_FUNCTIONPOINTERS_H

@@ -14,4 +14,5 @@ LoadClass(STRING_OBFUSCATE_KEY(namespaze, STRING_OBFUSCATE_DEFAULT_KEY).operator
 LoadClass(STRING_OBFUSCATE_KEY(namespaze, STRING_OBFUSCATE_DEFAULT_KEY).operator char *(), STRING_OBFUSCATE_KEY(classname, STRING_OBFUSCATE_DEFAULT_KEY).operator char *())
 #define OBFUSCATE_BYNAME_FIELD(namespaze, classname, fieldname) \
 LoadClass(STRING_OBFUSCATE_KEY(namespaze, STRING_OBFUSCATE_DEFAULT_KEY).operator char *(), STRING_OBFUSCATE_KEY(classname, STRING_OBFUSCATE_DEFAULT_KEY).operator char *()).GetFieldOffset(STRING_OBFUSCATE_KEY(fieldname, STRING_OBFUSCATE_DEFAULT_KEY).operator char *())
+
 #endif //IMGUIANDROID_CUSTOM_OBFUSCATE_H
