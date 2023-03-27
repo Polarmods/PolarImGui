@@ -1,7 +1,7 @@
 ﻿$ip = "127.0.0.1"
 $port = "5555"
 $lib = "libnative-lib.so"
-$app = "com.innersloth.spacemafia"
+$app = "com.blayzegames.newfps"
 $mod_apk_name = "app-debug.apk"
 $mod_apk_path = "../app/build/outputs/apk/debug/"
 $mod_arch = "arm" #arm or arm64

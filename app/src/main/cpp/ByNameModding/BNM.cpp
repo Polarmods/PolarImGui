@@ -1025,7 +1025,7 @@ namespace BNM_Internal {
         // Add assembly to list
         Assembly$$GetAllAssemblies()->push_back(newAsm);
 
-        LOGIBNM(OBFUSCATE_BNM("Added new assembly: [%s]"), cls->GetDllName());
+        LOGIBNM(OBFUSCATE_BNM("Added new assembly: [%s]"), cls->dllName);
 
         return newImg;
     }
@@ -1355,7 +1355,7 @@ namespace BNM_Internal {
 
             auto className = klass->GetName();
             auto classNamespace = klass->GetNamespace();
-            
+
             // Check is class already exist in il2cpp
             {
                 LoadClass existLS;
@@ -1531,7 +1531,7 @@ namespace BNM_Internal {
 #else
                         // Create new parameters array
                         auto **params = new IL2CPP::Il2CppType*[argsCount];
-						
+
                         // Set parameters
                         method->myInfo->parameters = (const IL2CPP::Il2CppType **)params;
 
@@ -1647,13 +1647,13 @@ namespace BNM_Internal {
                             newField->offset = field->GetOffset();
 						} else {
                             auto cppOffset = field->GetCppOffset();
-                            
+
                             // Set staticFieldsAddress if need
                             if (!klass->staticFieldsAddress) klass->staticFieldsAddress = cppOffset;
-                            
+
                             // Set offset
                             newField->offset = klass->staticFieldOffset;
-                            
+
                             // Get next offset
                             klass->staticFieldOffset += field->GetSize();
                         }
@@ -2004,30 +2004,23 @@ namespace BNM_Internal {
     }
 #ifndef BNM_DISABLE_AUTO_LOAD
     [[maybe_unused]] __attribute__((constructor))
-void PrepareBNM() {
-    std::thread([]() {
-        do {
-            dlLib = BNM_dlopen(OBFUSCATE_BNM("libil2cpp.so"), RTLD_LAZY);
-            if (dlLib) {
-                void *init = BNM_dlsym(dlLib, OBFUSCATE_BNM("il2cpp_init"));
-                if (init) 
-                {
-                    Dl_info info;
-                    BNM_dladdr(init, &info);
-                    auto l = strlen(info.dli_fname) + 1;
-                    auto s = new char[l];
-                    memset((void *)s, 0, l);
-                    strcpy(s, info.dli_fname);
-                    LibAbsolutePath = s;
-                    LibAbsoluteAddress = (BNM_PTR)info.dli_fbase;
-                    HOOK(init, BNM_il2cpp_init, old_BNM_il2cpp_init);
-                    break;
-                }
-                BNM_dlclose(dlLib);
-            }
-        } while (true);
-    }).detach();
-}
+    void PrepareBNM() {
+
+        // Try get lib at lib start
+        auto lib = BNM_dlopen(OBFUSCATE_BNM("libil2cpp.so"), RTLD_LAZY);
+        if (InitDlLib(lib)) return;
+        else BNM_dlclose(lib);
+
+        // Try get lib at background
+        std::thread([]() {
+            do {
+                if (hardBypass) break;
+                auto lib = BNM_dlopen(OBFUSCATE_BNM("libil2cpp.so"), RTLD_LAZY);
+                if (InitDlLib(lib)) break;
+                else BNM_dlclose(lib);
+            } while (true);
+        }).detach();
+    }
 #endif
 
     // Check is valid lib
