@@ -263,38 +263,4 @@ void SetObscuredFloatValue(uint64_t location, float value)
     *(float *) (location + 0x4) = IF2.f;
 }
 
-static enum TouchPhase{
-    Began,
-    Moved,
-    Stationary,
-    Ended,
-    Canceled
-};
-
-static enum TouchType
-{
-    Direct,
-    Indirect,
-    Stylus
-};
-
-using namespace BNM::UNITY_STRUCTS;
-
-struct Touch{
-    int m_FingerId{};
-    Vector2 m_Position;
-    Vector2 m_RawPosition;
-    Vector2 m_PositionDelta;
-    float m_TimeDelta{};
-    int m_TapCount{};
-    TouchPhase m_Phase{};
-    TouchType m_Type{};
-    float m_Pressure{};
-    float m_maximumPossiblePressure{};
-    float m_Radius{};
-    float m_RadiusVariance{};
-    float m_AltitudeAngle{};
-    float m_AzimuthAngle{};
-};
-
 #endif IMGUIANDROID_UNITY_H
