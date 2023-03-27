@@ -2006,20 +2006,29 @@ namespace BNM_Internal {
     [[maybe_unused]] __attribute__((constructor))
     void PrepareBNM() {
 
-        // Try get lib at lib start
-        auto lib = BNM_dlopen(OBFUSCATE_BNM("libil2cpp.so"), RTLD_LAZY);
-        if (InitDlLib(lib)) return;
-        else BNM_dlclose(lib);
-
-        // Try get lib at background
         std::thread([]() {
-            do {
-                if (hardBypass) break;
-                auto lib = BNM_dlopen(OBFUSCATE_BNM("libil2cpp.so"), RTLD_LAZY);
-                if (InitDlLib(lib)) break;
-                else BNM_dlclose(lib);
-            } while (true);
-        }).detach();
+        do {
+            dlLib = BNM_dlopen(OBFUSCATE_BNM("libil2cpp.so"), RTLD_LAZY);
+            if (dlLib) {
+                void *init = BNM_dlsym(dlLib, OBFUSCATE_BNM("il2cpp_init"));
+                if (init)
+                {
+                    Dl_info info;
+                    BNM_dladdr(init, &info);
+                    auto l = strlen(info.dli_fname) + 1;
+                    auto s = new char[l];
+                    memset((void *)s, 0, l);
+                    strcpy(s, info.dli_fname);
+                    LibAbsolutePath = s;
+                    LibAbsoluteAddress = (BNM_PTR)info.dli_fbase;
+                    HOOK(init, BNM_il2cpp_init, old_BNM_il2cpp_init);
+                    break;
+                }
+                BNM_dlclose(dlLib);
+            }
+        } while (true);
+    }).detach();
+
     }
 #endif
 
