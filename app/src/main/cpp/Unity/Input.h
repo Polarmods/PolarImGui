@@ -59,19 +59,31 @@ namespace Unity
             if (!init)
                 return _touch;
 
-            ImGuiIO &io = ImGui::GetIO();
-
-            // _touch.m_TapCount > 1 add this for double click
             if (index == 0)
             {
-                int x = static_cast<float>(_touch.m_Position.x);
-                float y = static_cast<float>(std::round(Unity::Screen::Height.get())) - _touch.m_Position.y;
-                ImGui_ImplAndroid_HandleInputEvent(x, y, Unity::Input::GetMouseButtonDown(0));
+                ImGuiIO &io = ImGui::GetIO();
+                float x = _touch.m_Position.x;
+                float y = static_cast<float>(std::round(Unity::Screen::Height())) - _touch.m_Position.y;
 
+                if (_touch.m_Phase == TouchPhase::Began)
+                {
+                    io.AddMousePosEvent(x,y);
+                    io.AddMouseButtonEvent(0, Unity::Input::GetMouseButtonDown(0));
+                }
+                if (_touch.m_Phase == TouchPhase::Moved)
+                {
+                    io.AddMousePosEvent(x,y);
+                }
+                if (_touch.m_Phase == TouchPhase::Ended)
+                {
+                    io.AddMouseButtonEvent(0, Unity::Input::GetMouseButtonDown(0));
+                    io.AddMouseButtonEvent(1, Unity::Input::GetMouseButtonDown(1));
+                    io.AddMouseButtonEvent(2, Unity::Input::GetMouseButtonDown(3));
+                }
+
+                if (io.WantCaptureMouse)
+                    return old_FakeGetTouch(-1);
             }
-
-            if (io.WantCaptureMouse)
-                return old_FakeGetTouch(-1);
 
             return _touch;
         }
