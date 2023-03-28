@@ -29,6 +29,8 @@
 #include "Misc/ImGuiStuff.h"
 #include "Menu.h"
 #include "Hooking/JNIHooks.h"
+#include "Unity/Screen.h"
+#include "Unity/Input.h"
 // the private version held by certain polarmodders has image loading and a lot more
 
 EGLBoolean (*old_eglSwapBuffers)(...);
@@ -38,18 +40,20 @@ EGLBoolean new_eglSwapBuffers(EGLDisplay _display, EGLSurface _surface) {
 
     return old_eglSwapBuffers(_display, _surface);
 }
+bool emulator = true;
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void * reserved)
 {
-    jvm = vm;
-    JNIEnv *env;
-    vm->GetEnv((void **) &env, JNI_VERSION_1_6);
-    UnityPlayer_cls = env->FindClass(OBFUSCATE("com/unity3d/player/UnityPlayer"));
-    UnityPlayer_CurrentActivity_fid = env->GetStaticFieldID(UnityPlayer_cls,
-                                                            OBFUSCATE("currentActivity"),
-                                                            OBFUSCATE("Landroid/app/Activity;"));
-    hook((void *) env->functions->RegisterNatives, (void *) hook_RegisterNatives,
-         (void **) &old_RegisterNatives);
-
+    if(!emulator){
+        jvm = vm;
+        JNIEnv *env;
+        vm->GetEnv((void **) &env, JNI_VERSION_1_6);
+        UnityPlayer_cls = env->FindClass(OBFUSCATE("com/unity3d/player/UnityPlayer"));
+        UnityPlayer_CurrentActivity_fid = env->GetStaticFieldID(UnityPlayer_cls,
+                                                                OBFUSCATE("currentActivity"),
+                                                                OBFUSCATE("Landroid/app/Activity;"));
+        hook((void *) env->functions->RegisterNatives, (void *) hook_RegisterNatives,
+             (void **) &old_RegisterNatives);
+    }
     return JNI_VERSION_1_6;
 }
 
@@ -60,9 +64,10 @@ void *hack_thread(void *)
         sleep(1);
     } while (!Il2cppLoaded());
     AttachIl2Cpp(); // this is required when you use bynamemodding functions
-    Menu::Screen_get_height = (int (*)()) OBFUSCATE_BYNAME_METHOD("UnityEngine", "Screen", "get_height",
-                                                           0);
-    Menu::Screen_get_width = (int (*)()) OBFUSCATE_BYNAME_METHOD("UnityEngine", "Screen", "get_width", 0);
+    Unity::Screen::Setup();
+    if(emulator){
+        Unity::Input::Setup();
+    }
     Pointers::LoadPointers();
     DetachIl2Cpp(); // remember to detach when you are done using bynamemodding functions
     return NULL;

@@ -262,4 +262,5 @@ void SetObscuredFloatValue(uint64_t location, float value)
 
     *(float *) (location + 0x4) = IF2.f;
 }
+
 #endif IMGUIANDROID_UNITY_H
